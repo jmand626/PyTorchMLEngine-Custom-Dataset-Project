@@ -1,1 +1,1 @@
-A practice/basic PyTorch coding project
+A practice PyTorch coding project
