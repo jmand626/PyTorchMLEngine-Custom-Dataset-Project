@@ -1,1 +1,1 @@
-A practice PyTorch coding project
+A PyTorch/ML model coding project
