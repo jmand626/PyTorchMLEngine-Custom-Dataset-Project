@@ -145,7 +145,7 @@ c_dict = train_data.class_to_idx
 
 
 #Start the training with your own parameters here
-model_backbone.train();
+#model_backbone.train();
 
 
 
@@ -220,8 +220,12 @@ test_transformed = datasets.ImageFolder(test_dir, transform=test_transform)
 
 
 #Can make dataloaders here
-train_dataloader_augmented, test_dataloader_simple, class_names = FGVCAircraft.create_dataloaders(...)
-
+train_dataloader_augmented, test_dataloader_simple, class_names = setup_dataholders.create_dataloaders(
+    train_directory=train_dir,
+    test_directory=test_dir,
+    data_transforms=train_transform,  # Ensure this is defined before calling the function
+    batch_size=48  # Use the same batch size as in `setup_dataholders.py`
+)
 
 
 #Make model here, code in another file
@@ -242,20 +246,15 @@ loss_func = nn.CrossEntropyLoss()
 start_time = timer()
 
 # Train modelf
-model_results = model_backbone.train(model=model, train_dataloader=train_dataloader_augmented,
+if __name__ == "__main__":
+
+    model_results = model_backbone.train(model=model, train_dataloader=train_dataloader_augmented,
                         test_dataloader=test_dataloader_simple,
                         optimizer=optimizer, loss_fn=loss_func, epochs=EPOCHS)
 
-# End the timer and print total training time
-end_time = timer()
-print(f"Total time: {end_time - start_time:.3f} seconds")
+    # End the timer and print total training time
+    end_time = timer()
+    print(f"Total time: {end_time - start_time:.3f} seconds")
 
-# Finally, show the loss curve plots
-visualize_loss_curves(model_results)
-
-
-
-
-
-
-
+    # Finally, show the loss curve plots
+    visualize_loss_curves(model_results)
